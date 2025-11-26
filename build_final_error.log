@@ -1,0 +1,86 @@
+﻿
+> my-v0-project@0.1.0 build C:\Users\Momen\Desktop\aeid
+> next build
+
+   Γû▓ Next.js 16.0.3 (Turbopack)
+   - Environments: .env
+   - Experiments (use with caution):
+     ┬╖ clientTraceMetadata
+
+node.exe :  ΓÜá The 
+"middleware" file 
+convention is 
+deprecated. Please 
+use "proxy" instead. 
+Learn more: https://n
+extjs.org/docs/messag
+es/middleware-to-prox
+y
+At C:\Users\Momen\App
+Data\Roaming\npm\pnpm
+.ps1:24 char:5
++     & "node$exe"  "
+$basedir/node_modules
+/pnpm/bin/pnpm.cjs" 
+$args
++     ~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: ( ΓÜá Th   
+ e "middl...lewar    
+e-to-proxy:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully in 7.1s
+   Running next.config.js provided runAfterProductionCompile ...
+ Γ£ô Completed runAfterProductionCompile in 1826ms
+   Running TypeScript ...
+Failed to compile.
+
+./lib/auth.ts:1:10
+Type error: Module 
+'"next-auth"' has no 
+exported member 
+'NextAuthOptions'. 
+Did you mean to use 
+'import 
+NextAuthOptions from 
+"next-auth"' instead?
+
+[0m[31m[1m>[22m[
+39m[90m 1 |[39m 
+[36mimport[39m { [
+33mNextAuthOptions[3
+9m } [36mfrom[39m 
+[32m'next-auth'[39m
+ [90m   |[39m      
+    
+[31m[1m^[22m[39m
+ [90m 2 |[39m 
+[36mimport[39m [33
+mCredentialsProvider
+[39m [36mfrom[39m 
+[32m'next-auth/provid
+ers/credentials'[39m
+ [90m 3 |[39m 
+[36mimport[39m 
+bcrypt 
+[36mfrom[39m 
+[32m'bcryptjs'[39m
+ [90m 4 |[39m 
+[36mimport[39m { 
+prisma } 
+[36mfrom[39m 
+[32m'./db'[39m[0m
+Next.js build worker 
+exited with code: 1 
+and signal: null
+ΓÇëELIFECYCLEΓÇë Command failed with exit code 1.
