@@ -18,7 +18,7 @@ export const products: Product[] = [
     fullDescription:
       "Long sleeves, teal fabric with golden mask print. Inspired by ancient Egyptian royalty. This stunning dress features the iconic golden mask of Tutankhamun, Egypt's most famous pharaoh. Printed on premium fabric with vibrant, long-lasting colors.",
     price: 700,
-    image: "https://via.placeholder.com/250x200?text=Tutankhamun+Dress",
+    image: "/egyptian-tutankhamun-dress-with-gold-mask-print-on.jpg",
     category: "Dresses",
     colors: ["Teal", "Black", "Gold"],
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -30,7 +30,7 @@ export const products: Product[] = [
     fullDescription:
       "Beige fabric with blue accents, detailed back print of the iconic queen. Celebrate the legendary Queen Nefertiti, known for her timeless beauty. This elegant robe includes a matching belt to accentuate the waist. Made from flowing, comfortable fabric.",
     price: 700,
-    image: "https://via.placeholder.com/250x200?text=Nefertiti+Robe",
+    image: "/nefertiti-bust-elegant-robe-egyptian-queen-fashion.jpg",
     category: "Robes",
     colors: ["Beige", "Blue", "White"],
     sizes: ["S", "M", "L", "XL", "XXL"],
@@ -42,7 +42,7 @@ export const products: Product[] = [
     fullDescription:
       "Orange-gold tones with pyramid backdrop, symbolizing protection and power. A powerful design featuring Horus, the falcon-headed god of kingship and the sky, soaring above the Great Pyramids. This comfortable long-sleeve shirt combines ancient symbolism with modern style.",
     price: 700,
-    image: "https://via.placeholder.com/250x200?text=Horus+Falcon+Shirt",
+    image: "/egyptian-falcon-with-pyramids-shirt-ancient-egypti.jpg",
     category: "Shirts",
     colors: ["Orange", "Gold", "Black"],
     sizes: ["S", "M", "L", "XL", "XXL"],
