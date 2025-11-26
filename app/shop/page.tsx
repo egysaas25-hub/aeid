@@ -10,6 +10,7 @@ import { Search, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { QuickAddDialog } from "@/components/quick-add-dialog"
 
 const INITIAL_PRODUCTS = 9
 const LOAD_MORE_COUNT = 6
@@ -164,13 +165,18 @@ export default function ShopPage() {
                       <div className="mb-2 text-sm font-medium text-accent">{product.category}</div>
                       <h3 className="mb-2 text-xl font-bold text-balance">{product.name}</h3>
                       <p className="mb-4 text-sm text-muted-foreground text-pretty">{product.description}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-2xl font-bold text-secondary">${product.price}</span>
-                        <Link href={`/product/${product.id}`}>
-                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
-                            View Details
-                          </Button>
-                        </Link>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-secondary">${product.price}</span>
+                        </div>
+                        <div className="flex gap-2">
+                          <QuickAddDialog product={product} />
+                          <Link href={`/product/${product.id}`} className="flex-1">
+                            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                              View Details
+                            </Button>
+                          </Link>
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
