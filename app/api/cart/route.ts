@@ -25,9 +25,9 @@ export async function GET(request: NextRequest) {
             orderBy: { createdAt: 'desc' },
         })
 
-        const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0)
+        const totalItems = cartItems.reduce((sum: number, item) => sum + item.quantity, 0)
         const totalPrice = cartItems.reduce(
-            (sum, item) => sum + Number(item.product.price) * item.quantity,
+            (sum: number, item) => sum + Number(item.product.price) * item.quantity,
             0
         )
 
