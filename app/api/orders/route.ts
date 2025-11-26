@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
         const orderItems: any[] = []
 
         for (const item of validatedData.items) {
-            const product = products.find((p) => p.id === item.productId)
+            const product = products.find((p: typeof products[0]) => p.id === item.productId)
             if (!product) continue
 
             // Check stock
@@ -102,7 +102,8 @@ export async function POST(request: NextRequest) {
         const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`
 
         // Create order
-        const order = await prisma.$transaction(async (tx) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const order = await prisma.$transaction(async (tx: any) => {
             // Create order
             const newOrder = await tx.order.create({
                 data: {
