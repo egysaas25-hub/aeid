@@ -3,18 +3,24 @@
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { products, categories } from "@/lib/products"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Search } from "lucide-react"
+import { Search, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+
+const INITIAL_PRODUCTS = 9
+const LOAD_MORE_COUNT = 6
 
 export default function ShopPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("All")
   const [sortBy, setSortBy] = useState("name-asc")
+  const [displayCount, setDisplayCount] = useState(INITIAL_PRODUCTS)
+  const [isLoading, setIsLoading] = useState(false)
+  const loadMoreRef = useRef<HTMLDivElement>(null)
 
   const filteredAndSortedProducts = useMemo(() => {
     const filtered = products.filter((product) => {
@@ -43,6 +49,49 @@ export default function ShopPage() {
 
     return filtered
   }, [searchQuery, selectedCategory, sortBy])
+
+  // Reset display count when filters change
+  useEffect(() => {
+    setDisplayCount(INITIAL_PRODUCTS)
+  }, [searchQuery, selectedCategory, sortBy])
+
+  // Infinite scroll with Intersection Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0]
+        if (first.isIntersecting && displayCount < filteredAndSortedProducts.length) {
+          handleLoadMore()
+        }
+      },
+      { threshold: 0.1 }
+    )
+
+    const currentRef = loadMoreRef.current
+    if (currentRef) {
+      observer.observe(currentRef)
+    }
+
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef)
+      }
+    }
+  }, [displayCount, filteredAndSortedProducts.length])
+
+  const handleLoadMore = () => {
+    if (isLoading || displayCount >= filteredAndSortedProducts.length) return
+    
+    setIsLoading(true)
+    // Simulate loading delay for smooth UX
+    setTimeout(() => {
+      setDisplayCount(prev => Math.min(prev + LOAD_MORE_COUNT, filteredAndSortedProducts.length))
+      setIsLoading(false)
+    }, 500)
+  }
+
+  const displayedProducts = filteredAndSortedProducts.slice(0, displayCount)
+  const hasMore = displayCount < filteredAndSortedProducts.length
 
   return (
     <div className="min-h-screen">
@@ -100,30 +149,60 @@ export default function ShopPage() {
               <p className="text-lg text-muted-foreground">No products found matching your criteria.</p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredAndSortedProducts.map((product) => (
-                <Card key={product.id} className="overflow-hidden transition-shadow hover:shadow-lg">
-                  <div className="aspect-[4/5] overflow-hidden bg-muted">
-                    <img
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <CardContent className="p-6">
-                    <div className="mb-2 text-sm font-medium text-accent">{product.category}</div>
-                    <h3 className="mb-2 text-xl font-bold text-balance">{product.name}</h3>
-                    <p className="mb-4 text-sm text-muted-foreground text-pretty">{product.description}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-2xl font-bold">${product.price}</span>
-                      <Link href={`/product/${product.id}`}>
-                        <Button className="bg-accent text-accent-foreground hover:bg-accent/90">View Details</Button>
-                      </Link>
+            <>
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {displayedProducts.map((product) => (
+                  <Card key={product.id} className="overflow-hidden transition-shadow hover:shadow-lg papyrus-texture">
+                    <div className="aspect-[4/5] overflow-hidden bg-muted">
+                      <img
+                        src={product.image || "/placeholder.svg"}
+                        alt={product.name}
+                        className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    <CardContent className="p-6">
+                      <div className="mb-2 text-sm font-medium text-accent">{product.category}</div>
+                      <h3 className="mb-2 text-xl font-bold text-balance">{product.name}</h3>
+                      <p className="mb-4 text-sm text-muted-foreground text-pretty">{product.description}</p>
+                      <div className="flex items-center justify-between">
+                        <span className="text-2xl font-bold text-secondary">${product.price}</span>
+                        <Link href={`/product/${product.id}`}>
+                          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+                            View Details
+                          </Button>
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+
+              {/* Infinite scroll trigger */}
+              {hasMore && (
+                <div ref={loadMoreRef} className="mt-12 flex justify-center">
+                  {isLoading ? (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Loader2 className="h-6 w-6 animate-spin" />
+                      <span>Loading more products...</span>
+                    </div>
+                  ) : (
+                    <Button 
+                      onClick={handleLoadMore}
+                      variant="outline"
+                      size="lg"
+                      className="papyrus-texture"
+                    >
+                      Load More Products ({filteredAndSortedProducts.length - displayCount} remaining)
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Show total count */}
+              <div className="mt-8 text-center text-sm text-muted-foreground">
+                Showing {displayedProducts.length} of {filteredAndSortedProducts.length} products
+              </div>
+            </>
           )}
         </div>
       </main>
